@@ -27,3 +27,10 @@ class BlogResponse(BaseModel):
     title: str
     content: str
     creator: UserResponse
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: str | None = None
