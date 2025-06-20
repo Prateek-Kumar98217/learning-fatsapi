@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from .database import Base
 
 class BlogPost(Base):
@@ -7,7 +8,9 @@ class BlogPost(Base):
     id= Column(Integer, primary_key = True, index = True)
     title = Column(String)
     content = Column(String)
-    published = Column(Integer, default = 0)
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    creator = relationship("User", back_populates="blogs")
 
     def __repr__(self) -> str:
         return f"<BlogPost(id={self.id}, title='{self.title}', published={self.published})>"
@@ -19,6 +22,8 @@ class User(Base):
     username = Column(String, unique=True)
     email = Column(String, unique=True)
     hashed_password = Column(String)
+
+    blogs = relationship("BlogPost", back_populates="creator")
 
     def __repr__(self) -> str:
         return f"<User(id={self.id}, username='{self.username}', email='{self.email}')>"

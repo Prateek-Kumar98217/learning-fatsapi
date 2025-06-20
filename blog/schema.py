@@ -3,12 +3,10 @@ from pydantic import BaseModel
 class Blog(BaseModel):
     title: str
     content: str
-    published: bool = False
 
 class BlogUpdate(BaseModel):
     title: str| None = None
     content: str| None = None
-    published: bool| None = None
 
 class UserCreate(BaseModel):
     username: str
@@ -18,3 +16,14 @@ class UserCreate(BaseModel):
 class UserResponse(BaseModel):
     username: str
     email: str
+
+class UserResponseWithBlogs(BaseModel):
+    username: str
+    email: str
+    blogs: list[Blog] = []
+
+class BlogResponse(BaseModel):
+    id: int
+    title: str
+    content: str
+    creator: UserResponse
